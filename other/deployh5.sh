@@ -8,14 +8,14 @@ base_repo=http://*:*@192.168.1.1:9090/git/everobo_h5/hybridH5.git
 project_path=/root/deploy/server4/hybridH5
 
 pushFile(){
-    if [ -d $project_path ]; then
-			for file in `ls $project_path`
-			do
-				ansible server4 -m copy -a "src=$project_path/$file dest=$1/ owner=root group=root"
-			done
-		else
-			echo "error. $project_path is not dir"
-		fi
+	if [ -d $project_path ]; then
+		for file in `ls $project_path`
+		do
+			ansible server4 -m copy -a "src=$project_path/$file dest=$1/ owner=root group=root"
+		done
+	else
+		echo "error. $project_path is not dir"
+	fi
 }
 
 if [ ! -d "$project_path" ]; then
@@ -42,10 +42,10 @@ case "$REPLY" in
 	;;
 	yhk)
 		echo ""
-    echo "starting copy files to server, please be patient and do not quit......."
+		echo "starting copy files to server, please be patient and do not quit......."
 		echo ""
-    pushFile "/usr/share/nginx/prod/read"
-    echo "done"
+		pushFile "/usr/share/nginx/prod/read"
+		echo "done"
 	;;
 	*)
 		path=$REPLY
@@ -56,9 +56,9 @@ case "$REPLY" in
 			exit -1
 		fi
 		echo ""
-    echo "starting copy files to server, please be patient and do not quit......."
-    echo ""
-    pushFile "/usr/share/nginx/prod/$path"
+		echo "starting copy files to server, please be patient and do not quit......."
+		echo ""
+		pushFile "/usr/share/nginx/prod/$path"
 		result_code=`curl -I -m 10 -o /dev/null -s -w %{http_code} https://**.***.com/$path/index.html`
 		echo "ping https://**.***.com/$path/index.html return:::$result_code"
 		echo ""
@@ -71,6 +71,6 @@ case "$REPLY" in
 			ansible server4 -m lineinfile -a "dest=/etc/nginx/conf.d/m.everobo.com.conf line='    }\n}'"
 			ansible server4 -a "nginx -s reload"
 		fi
-    echo "done"		
+		echo "done"		
 	;;
 esac
