@@ -15,7 +15,7 @@ do
 		do
 			lengthTime=`cat $1/$file | jq ".pageInfo[$i].lengthTime"`
 			if [ "$lengthTime" == "null" ]; then
-				break	
+				continue
 			else 
 				minute=${lengthTime:1:2}
 				second=${lengthTime:4:2}
